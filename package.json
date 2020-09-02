@@ -1,0 +1,29 @@
+{
+  "name": "@adobe/parliament-site-search-index",
+  "version": "0.0.2",
+  "description": "Creates a node in GraphQL DB for the search Index",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/parliament-site-search-index.git"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/adobe/parliament-site-search-index/issues"
+  },
+  "homepage": "https://github.com/adobe/parliament-site-search-index#readme",
+  "peerDependencies": {
+    "gatsby": "^2.15.19"
+  },
+  "dependencies": {
+    "elasticlunr": "^0.9.5",
+    "graphql-type-json": "^0.3.2",
+    "json5": "^2.1.3",
+    "node-fetch": "^2.6.0",
+    "widdershins": "^4.0.1"
+  }
+}
