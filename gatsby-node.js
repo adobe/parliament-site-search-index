@@ -23,7 +23,7 @@ function getObjects(obj, key, val) {
       objects = objects.concat(getObjects(obj[i], key, val))
     }
     //if key matches and value matches
-    else if (i == key && val.endsWith(obj[i])) {
+    else if (i == key && val.endsWith(obj[i]) && obj[i] !== "/") {
       if (obj.path !== "") {
         objects.push(obj)
       }
@@ -37,6 +37,14 @@ function getObjects(obj, key, val) {
     }
   }
   return objects
+}
+
+function getPageInfo(siteMetadata, filePath) {
+  let objs = getObjects(siteMetadata.pages, "path", filePath)
+  if (objs.length <= 0) {
+    objs = getObjects(siteMetadata.subPages, "path", filePath)
+  }
+  return objs[0] || { title: "", path: "" }
 }
 
 /**
@@ -85,6 +93,12 @@ const createIndex = async (nodes, site) => {
   index.addField(`type`)
 
   for (node of nodes) {
+    let filePath = node.fileAbsolutePath.endsWith("index.md")
+      ? node.fileAbsolutePath.slice(0, -8)
+      : node.fileAbsolutePath
+
+    const pageInfo = getPageInfo(site.siteMetadata, filePath)
+
     if (node.frontmatter && node.frontmatter.openAPISpec) {
       // convert openapi to markdown
       const response = await fetch(node.frontmatter.openAPISpec)
@@ -96,21 +110,17 @@ const createIndex = async (nodes, site) => {
         id: node.id,
         title: node.frontmatter.title,
         body: md,
-        path: "/api/",
+        path: pageInfo.path,
         type: "apis",
       }
       index.addDoc(doc)
     } else {
-      let filePath = node.fileAbsolutePath.endsWith("index.md")
-        ? node.fileAbsolutePath.slice(0, -8)
-        : node.fileAbsolutePath
-      let objs = getObjects(site.siteMetadata.subPages, "path", filePath)
-      if (objs.length > 0) {
+      if (pageInfo.title) {
         const doc = {
           id: node.id,
-          title: objs[0].title,
+          title: pageInfo.title,
           body: node.internal.content,
-          path: objs[0].path,
+          path: pageInfo.path,
           type: "docs",
         }
         index.addDoc(doc)
