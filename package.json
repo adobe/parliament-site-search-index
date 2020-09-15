@@ -1,6 +1,6 @@
 {
   "name": "@adobe/parliament-site-search-index",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Creates a node in GraphQL DB for the search Index",
   "main": "index.js",
   "publishConfig": {
