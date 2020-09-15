@@ -3,6 +3,9 @@
   "version": "0.0.3",
   "description": "Creates a node in GraphQL DB for the search Index",
   "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
